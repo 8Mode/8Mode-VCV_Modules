@@ -7,7 +7,7 @@
 
 Hardware emulation of the Texas Instruments SN76447 "Complex Sound Generator" sound chip. Released in 1978, it was used in arcade games including Space Invaders and in popular electronic toys such as the Remco SoundFX machine. 
 
-[SoftSN Manual](docs/SoftSN.md) • [Video (Youtube)](https://www.youtube.com) 
+[SoftSN Manual](docs/SoftSN.md) • [Video (Youtube)](https://youtu.be/6BLhJZEeeeY) 
 
 <br/><br/><br/><br/><br/><br/><br/>
 
