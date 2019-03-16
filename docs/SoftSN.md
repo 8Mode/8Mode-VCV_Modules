@@ -6,7 +6,7 @@
 
 The SN76477 is an analog/digital hybrid sound chip released in 1978. SNSoft provides controls and simulates the analog circuitry including 4 RC oscillators, voltage level inputs and digital inputs around a SN76477 emulator. This provides a fairly accurate reproduction of the real thing in a way that could be built in electronics from 1978 - including the quirks and limitations.
 
-[SN76477 Datasheet](sn76477d.pdf)
+[SN76477 Datasheet](sn76477.pdf)
 
 <br/>
 
