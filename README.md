@@ -15,4 +15,4 @@ Hardware emulation of the Texas Instruments SN76447 "Complex Sound Generator" so
 ## Contributing
 
 I welcome Issues and Pull Requests to this repository if you have suggestions for improvement.
-If you enjoy those modules you can support the development by making a donation. Here's the link: [DONATE](https://paypal.me/8ModeLLC)
+If you enjoy those modules you can support the development by making a donation. Here's the link: [DONATE](https://www.8mode.com/vcv-modules)
