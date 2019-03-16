@@ -87,7 +87,6 @@ void SN_VCO::step()
 	float decay_res = params[m_decay_res].value + (((inputs[DECAY_MOD_PARAM].value * 20) / 100) * 20000000);
 	float noise_clock_res = params[m_noise_clock_res].value + (((inputs[NOISE_FREQ_MOD_PARAM].value * 20) / 100) * 3300000);
 	float noise_filter_res = params[m_noise_filter_res].value + (((inputs[NOISE_FILTER_MOD_PARAM].value * 20) / 100) * 100000000);
-	//float one_shot_length = (params[ONE_SHOT_CAP_PARAM].value / 1000000000) + ((((inputs[ONE_SHOT_LENGTH_MOD_PARAM].value * 20) / 100) * 2000));
 	float one_shot_length = ((params[ONE_SHOT_CAP_PARAM].value ) + (((inputs[ONE_SHOT_LENGTH_MOD_PARAM].value * 20) / 100) * 2000)) / 1000000000;
 	float duty_cycle = params[m_pitch_voltage].value + (((inputs[DUTY_MOD_PARAM].value * 20) / 100) * 4.55);
 
