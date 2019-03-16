@@ -37,4 +37,4 @@ The SN76477 is an analog/digital hybrid sound chip released in 1978. SNSoft prov
 ## Contributing
 
 I welcome Issues and Pull Requests to this repository if you have suggestions for improvement.
-If you enjoy those modules you can support the development by making a donation. Here's the link: [DONATE](https://paypal.me/8ModeLLC)
+If you enjoy those modules you can support the development by making a donation. Here's the link: [DONATE](https://www.8mode.com/vcv-modules)
