@@ -9,7 +9,10 @@ Hardware emulation of the Texas Instruments SN76447 "Complex Sound Generator" so
 
 [SoftSN Manual](docs/SoftSN.md) • [Video (Youtube)](https://youtu.be/6BLhJZEeeeY) • [Download](https://github.com/8Mode/8Mode-VCV_Modules/releases)
 
-<br/><br/><br/><br/><br/><br/><br/>
+[How to install Plugins](https://vcvrack.com/manual/Installing.html#installing-plugins)
+
+
+<br/><br/><br/><br/><br/><br/>
 
 ---
 ## Contributing
