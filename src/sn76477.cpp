@@ -128,14 +128,6 @@ static inline double min(double a, double b)
 	return (a < b) ? a : b;
 }
 
-
-
-
-
-
-
-
-
 void sn76477_device::device_start()
 {
 
@@ -186,10 +178,6 @@ void sn76477_device::device_start()
 			m_envelope_2=0;
 
     m_enable = 0;
-	//m_our_sample_rate=44100;
-   // m_amplitude_res=100000;
-   // m_feedback_res=22000;
-    //m_noise_clock_res=2000000;
 	m_one_shot_cap_voltage = ONE_SHOT_CAP_VOLTAGE_MIN;
 
     m_slf_cap_voltage = SLF_CAP_VOLTAGE_MIN;
@@ -205,11 +193,11 @@ void sn76477_device::device_start()
     m_attack_decay_cap_voltage_ext=false;
 
 
-    //m_noise_filter_cap_voltage=5;
+
 	m_real_noise_bit_ff=1;
-   m_filtered_noise_bit_ff=0;
+    m_filtered_noise_bit_ff=0;
     m_noise_gen_count=1;
-intialize_noise();
+    intialize_noise();
 
 }
 
@@ -760,8 +748,6 @@ Rsamples sn76477_device::sound_stream_update(int samples)
 		m_noise_gen_count = m_noise_gen_count - noise_gen_freq;
 		if(m_noise_gen_count >=1000000) m_noise_gen_count=noise_gen_freq+m_our_sample_rate+1;
 		m_noise_filter_cap_voltage_ext=0;
-
-		//printf("%u:%u:%u\n",m_noise_gen_count,noise_gen_freq,m_our_sample_rate);
 
 		/* update the noise filter */
 		if (!m_noise_filter_cap_voltage_ext)

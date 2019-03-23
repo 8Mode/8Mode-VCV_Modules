@@ -1,4 +1,4 @@
-#include "SNsoft.hpp"
+#include "softSN.hpp"
 #include "sn76477.h"
 #include "rescap.h"
 #include "dsp/digital.hpp"
@@ -7,18 +7,12 @@ struct SN_VCO: Module
 {
 	enum ParamIds
 	{
-		PITCH_PARAM,
-		V_PARAM,
 		m_noise_clock_res,
 		m_noise_filter_res,
 		m_decay_res,
 		m_attack_res,
-		m_amplitude_res,
-		m_feedback_res,
-		m_vco_cap,
 		m_vco_res,
 		m_pitch_voltage,
-		m_slf_cap,
 		m_slf_res,
 		M_MIXER_A_PARAM,
 		M_MIXER_B_PARAM,
@@ -55,20 +49,23 @@ struct SN_VCO: Module
 	SchmittTrigger OneShotTrigger;
 
 	void onSampleRateChange() override;
+
 	sn76477_device sn;
 
 	SN_VCO() :
 			Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
-
 		sn.set_amp_res(100);
 		sn.set_feedback_res(100);
 		sn.set_m_our_sample_rate(engineGetSampleRate());
 		sn.device_start();
+
+
 	}
 	void step() override;
 
 };
+
 
 void SN_VCO::onSampleRateChange()
 {
@@ -77,6 +74,11 @@ void SN_VCO::onSampleRateChange()
 
 void SN_VCO::step()
 {
+	params[M_MIXER_A_PARAM].value=round(params[M_MIXER_A_PARAM].value);
+	params[M_MIXER_B_PARAM].value=round(params[M_MIXER_B_PARAM].value);
+	params[M_MIXER_C_PARAM].value=round(params[M_MIXER_C_PARAM].value);
+	params[M_ENV_KNOB].value=round(params[M_ENV_KNOB].value);
+	params[VCO_SELECT_PARAM].value=round(params[VCO_SELECT_PARAM].value);
 
 	// Calculate VCO and SLF Oscillator Voltages
 	double volts = 1.752 * powf(2.0f, -1 * (inputs[EXT_VCO].value + (params[m_vco_res].value - 4 + (params[VCO_SELECT_PARAM].value * 6.223494))));
@@ -90,7 +92,7 @@ void SN_VCO::step()
 	float one_shot_length = ((params[ONE_SHOT_CAP_PARAM].value ) + (((inputs[ONE_SHOT_LENGTH_MOD_PARAM].value * 20) / 100) * 2000)) / 1000000000;
 	float duty_cycle = params[m_pitch_voltage].value + (((inputs[DUTY_MOD_PARAM].value * 20) / 100) * 4.55);
 
-	sn.set_vco_params(2.30, (double) (params[m_vco_cap].value / 1000000), volts);
+	sn.set_vco_params(2.30, 0, volts);
 	sn.set_slf_params(CAP_U(.047), slf_volts);
 	sn.set_noise_params(noise_clock_res, noise_filter_res, CAP_P(470));
 	sn.set_decay_res(decay_res);
@@ -101,17 +103,18 @@ void SN_VCO::step()
 	sn.set_vco_mode(params[VCO_SELECT_PARAM].value);
 	sn.set_oneshot_params(one_shot_length, 5000000);
 
+	// One Shot Trigger
 	if (params[ONE_SHOT_PARAM].value)
 		sn.shot_trigger();
 	if (OneShotTrigger.process(inputs[ONE_SHOT_GATE_PARAM].value))
 		sn.shot_trigger();
 
+	// Attempt at AGC for TRI output.
+
 	Rsamples sam = sn.sound_stream_update(1);
 
 	double sine = (5.0 * (double) sam.s1 / 25000) + 1.3;
 	outputs[SINE_OUTPUT].value = sine;
-
-	// Attempt at AGC for TRI output.
 
 	triout = sam.s2;
 
@@ -146,9 +149,6 @@ void SN_VCO::step()
 	{
 		outputs[TRI_OUTPUT].value = sample * K * 100.5;
 	}
-
-	//float light = 1/duty_cycle/4.55;
-	//lights[PIN1].value = clamp(light, 0.0f, 1.0f);
 
 }
 
@@ -194,8 +194,7 @@ struct MyModuleWidget: ModuleWidget
 		//addOutput(Port::create<PJ301MPort>(RESOUT_POSITION, Port::OUTPUT, module, SN_VCO::RESOUT));
 		//addOutput(Port::create<PJ301MPort>(CAPOUT_POSITION, Port::OUTPUT, module, SN_VCO::CAPOUT));
 
-		//addChild(ModuleLightWidget::create<MediumLight<GreenRedLight>>(Vec(55, 269), module, SN_VCO::PIN1));
-		//addChild(ModuleLightWidget::create<MediumLight<RedLight>>(Vec(41, 59), module, SN_VCO::PIN1));
+
 
 
 	}
@@ -206,4 +205,3 @@ struct MyModuleWidget: ModuleWidget
 // change), human-readable module name, and any number of tags
 // (found in `include/tags.hpp`) separated by commas.
 Model *modelsoftSN = Model::create<SN_VCO, MyModuleWidget>("8Mode", "softSN", "softSN Machine", OSCILLATOR_TAG);
-
