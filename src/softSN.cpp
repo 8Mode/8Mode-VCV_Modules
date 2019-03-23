@@ -194,9 +194,6 @@ struct MyModuleWidget: ModuleWidget
 		//addOutput(Port::create<PJ301MPort>(RESOUT_POSITION, Port::OUTPUT, module, SN_VCO::RESOUT));
 		//addOutput(Port::create<PJ301MPort>(CAPOUT_POSITION, Port::OUTPUT, module, SN_VCO::CAPOUT));
 
-
-
-
 	}
 };
 
@@ -204,4 +201,4 @@ struct MyModuleWidget: ModuleWidget
 // author name for categorization per plugin, module slug (should never
 // change), human-readable module name, and any number of tags
 // (found in `include/tags.hpp`) separated by commas.
-Model *modelsoftSN = Model::create<SN_VCO, MyModuleWidget>("8Mode", "softSN", "softSN Machine", OSCILLATOR_TAG);
+Model *modelsoftSN = Model::create<SN_VCO, MyModuleWidget>("8Mode", "softSN", "softSN Machine", OSCILLATOR_TAG, SYNTH_VOICE_TAG);
