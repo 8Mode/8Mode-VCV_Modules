@@ -2,9 +2,9 @@
 
 using namespace rack;
 
-extern Plugin *plugin;
+extern Plugin *pluginInstance;
 
-struct Button18 : SVGSwitch, MomentarySwitch {
+struct Button18 : SvgSwitch {
 	Button18();
 };
 
@@ -19,24 +19,21 @@ struct Snap_8M_Knob : RoundKnob {
 	Snap_8M_Knob();
 };
 
-
-
-struct StatefulButton : ParamWidget, FramebufferWidget {
-	std::vector<std::shared_ptr<SVG>> _frames;
-	SVGWidget* _svgWidget; // deleted elsewhere.
+struct StatefulButton : ParamWidget {
+	std::vector<std::shared_ptr<Svg>> _frames;
+	SvgWidget* _svgWidget; // deleted elsewhere.
 	CircularShadow* shadow = NULL;
 
-	StatefulButton(const char* offSVGPath, const char* onSVGPath);
-	void step() override;
-	void onDragStart(EventDragStart& e) override;
-	void onDragEnd(EventDragEnd& e) override;
+	StatefulButton(const char* offSvgPath, const char* onSvgPath);
+	void onDragStart(const event::DragStart& e) override;
+	void onDragEnd(const event::DragEnd& e) override;
 };
 
 struct StatefulButton18 : StatefulButton {
 	StatefulButton18();
 };
 
-struct SliderSwitch : SVGSwitch, ToggleSwitch {
+struct SliderSwitch : SvgSwitch {
 	CircularShadow* shadow = NULL;
 	SliderSwitch();
 };
