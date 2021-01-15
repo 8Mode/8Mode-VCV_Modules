@@ -1,74 +1,63 @@
 #include "widgets.hpp"
 
-
 BGKnob::BGKnob(const char* svg, int dim) {
-	setSVG(SVG::load(assetPlugin(plugin, svg)));
+	setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));
 	box.size = Vec(dim, dim);
 	shadow->blurRadius = 1.0;
-	// k->shadow->opacity = 0.15;
 	shadow->box.pos = Vec(0.0, 2.0);
 }
-
 
 Knob16::Knob16() : BGKnob("res/8Mode_Knob1.svg", 46) {
 	shadow->box.pos = Vec(0.0, 0);
 }
 
-
 Snap_8M_Knob::Snap_8M_Knob() {
-setSVG(SVG::load(assetPlugin(plugin,"res/8Mode_Knob1.svg")));
+setSvg(APP->window->loadSvg(asset::plugin(pluginInstance,"res/8Mode_Knob1.svg")));
 	shadow->box.pos = Vec(0.0, 0);
 	snap = true;
 	minAngle = 0.3*M_PI;
 	maxAngle = 0.725*M_PI;
-
 }
 
-
-
 Button18::Button18() {
-	addFrame(SVG::load(assetPlugin(plugin, "res/button_18px_0.svg")));
-	addFrame(SVG::load(assetPlugin(plugin, "res/button_18px_1.svg")));
+	addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/button_18px_0.svg")));
+	addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/button_18px_1.svg")));
 	box.size = Vec(18, 18);
 }
 
-StatefulButton::StatefulButton(const char* offSVGPath, const char* onSVGPath) {
+StatefulButton::StatefulButton(const char* offSvgPath, const char* onSvgPath) {
 	shadow = new CircularShadow();
 	addChild(shadow);
 
-	_svgWidget = new SVGWidget();
+	_svgWidget = new SvgWidget();
 	addChild(_svgWidget);
 
-	auto svg = SVG::load(assetPlugin(plugin, offSVGPath));
+	auto svg = APP->window->loadSvg(asset::plugin(pluginInstance, offSvgPath));
 	_frames.push_back(svg);
-	_frames.push_back(SVG::load(assetPlugin(plugin, onSVGPath)));
+	_frames.push_back(APP->window->loadSvg(asset::plugin(pluginInstance, onSvgPath)));
 
-	_svgWidget->setSVG(svg);
+	_svgWidget->setSvg(svg);
 	box.size = _svgWidget->box.size;
 	shadow->box.size = _svgWidget->box.size;
 	shadow->blurRadius = 1.0;
 	shadow->box.pos = Vec(0.0, 1.0);
 }
 
-void StatefulButton::step() {
-	FramebufferWidget::step();
+void StatefulButton::onDragStart(const event::DragStart& e) {
+	_svgWidget->setSvg(_frames[1]);
+	if (paramQuantity) {
+    _svgWidget->setSvg(_frames[1]);
+    if (paramQuantity->getValue() >= paramQuantity->getMaxValue()) {
+      paramQuantity->setValue(paramQuantity->getMinValue());
+    }
+    else {
+      paramQuantity->setValue(paramQuantity->getValue() + 1.0);
+    }
+  }
 }
 
-void StatefulButton::onDragStart(EventDragStart& e) {
-	_svgWidget->setSVG(_frames[1]);
-	dirty = true;
-
-	if (value >= maxValue) {
-		setValue(minValue);
-	}
-	else {
-		setValue(value + 1.0);
-	}
-}
-
-void StatefulButton::onDragEnd(EventDragEnd& e) {
-	_svgWidget->setSVG(_frames[0]);
-	dirty = true;
+void StatefulButton::onDragEnd(const event::DragEnd& e) {
+	_svgWidget->setSvg(_frames[0]);
 }
 
 StatefulButton18::StatefulButton18() : StatefulButton("res/button_18px_0.svg", "res/button_18px_1.svg") {
@@ -81,14 +70,6 @@ SliderSwitch::SliderSwitch() {
 }
 
 EModeSlider::EModeSlider() {
-	addFrame(SVG::load(assetPlugin(plugin, "res/8Mode_ss_0.svg")));
-	addFrame(SVG::load(assetPlugin(plugin, "res/8Mode_ss_1.svg")));
-	//shadow->box.size = Vec(14.0, 24.0);
-	//shadow->blurRadius = 1.0;
-	//shadow->box.pos = Vec(0.0, 7.0);
+	addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/8Mode_ss_0.svg")));
+	addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/8Mode_ss_1.svg")));
 }
-
-
-
-
-
