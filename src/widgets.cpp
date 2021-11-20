@@ -1,5 +1,6 @@
 #include "widgets.hpp"
 
+
 BGKnob::BGKnob(const char* svg, int dim) {
 	setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));
 	box.size = Vec(dim, dim);
@@ -44,6 +45,9 @@ StatefulButton::StatefulButton(const char* offSvgPath, const char* onSvgPath) {
 }
 
 void StatefulButton::onDragStart(const event::DragStart& e) {
+
+    ParamQuantity* paramQuantity = getParamQuantity();
+
 	_svgWidget->setSvg(_frames[1]);
 	if (paramQuantity) {
     _svgWidget->setSvg(_frames[1]);

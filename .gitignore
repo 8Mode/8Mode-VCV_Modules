@@ -34,3 +34,7 @@ dist/8Mode/res/8Mode_ss_0\.svg
 dist/8Mode/res/8Mode_ss_1\.svg
 
 dist/8Mode/res/SNsoft_Panel\.svg
+*.dll
+build/src/softSN.cpp.d
+build/src/softSN.cpp.o
+dist/8Mode-2.0.0-win.vcvplugin
